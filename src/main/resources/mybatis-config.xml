@@ -1,0 +1,36 @@
+<!DOCTYPE configuration
+  	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+  	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!-- 配置指定使用 log4j 输出日志 -->
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>
+	</settings>
+	<!-- 配置包别名，不需要频繁类的全限定名称 -->
+	<typeAliases>
+		<package name="com.kwin.mybatis.entity"/>
+	</typeAliases>
+	<!-- 配置数据库连接 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC">
+				<property name="" value=""/>
+			</transactionManager>
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+				<property name="username" value="root"/>
+				<property name="password" value="root"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- mybatis 映射文件 -->
+	<!-- 此处包名之间的间隔更改为"/"   不要再使用"." package 除外 -->
+	<mappers>
+		<!--
+			<mapper resource="com/kwin/mybatis/mapper/CountryMapper.xml"/>
+		-->
+		<package name="com.kwin.mybatis.mapper"/>
+	</mappers>
+</configuration>

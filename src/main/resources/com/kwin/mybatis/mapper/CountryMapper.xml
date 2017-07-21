@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kwin.mybatis.mapper.CountryMapper">
+	<resultMap id="BaseResultMap" type="Country">
+		<id column="id" property="id"/>
+		<result column="countryname" property="countryName"/>
+		<result column="countrycode" property="countryCode"/>
+	</resultMap>
+	<!-- 查询全部 -->
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id,countryname,countrycode from country
+	</select>
+</mapper>
