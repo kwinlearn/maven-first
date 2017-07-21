@@ -3,25 +3,51 @@
 	PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kwin.mybatis.mapper.UserMapper">
-	<resultMap id="BaseResultMap" type="User">
-		<id column="id" property="id"/>
-		<result column="user_name" property="userName"/>
-		<result column="user_password" property="userPassword"/>
-		<result column="user_email" property="userEmail"/>
-		<result column="user_info" property="userInfo"/>
-		<result column="head_img" property="headImg" jdbcType="BLOB"/>
-		<result column="create_time" property="createTime"/>
-	</resultMap>
+<!--	<resultMap id="BaseResultMap" type="User">-->
+		<!-- property 映射到entity中，在实际匹配中会全部转换为大写比对-->
+<!--		<id column="id" property="id"/>-->
+<!--		<result column="user_name" property="userName"/>-->
+<!--		<result column="user_password" property="userPassword"/>-->
+<!--		<result column="user_email" property="userEmail"/>-->
+<!--		<result column="user_info" property="userInfo"/>-->
+<!--		<result column="head_img" property="headImg" jdbcType="BLOB"/>-->
+<!--		<result column="create_time" property="createTime"/>-->
+<!--	</resultMap>-->
 	<sql id="BaseColumns">
 		id, user_name, user_password, user_email, user_info, head_img, create_time
 	</sql>
 	
-	<select id="selectById" parameterType="Long" resultMap="BaseResultMap">
+	<select id="selectById" parameterType="Long" resultType="User">
 		select
 			<include refid="BaseColumns"/>
 		from
 			sys_user
 		where
 			id = #{id}
+	</select>
+	
+	<select id="selectAll" resultType="User">
+		select
+			id, 
+			user_name, 
+			user_password, 
+			user_email, 
+			user_info, 
+			head_img, 
+			create_time
+		from
+			sys_user;
+	</select>
+	
+	<select id="selectRolesByUserId" parameterType="Long" resultType="Role">
+		select
+			r.id, 
+			r.role_name, 
+			r.enabled, 
+			r.create_by, 
+			r.create_time
+		from sys_user_role ur
+		left join sys_role r on ur.role_id = r.id
+		where ur.user_id = #{userId};
 	</select>
 </mapper>

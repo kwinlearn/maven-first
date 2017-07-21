@@ -3,9 +3,11 @@
   	"http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-	<!-- 配置指定使用 log4j 输出日志 -->
 	<settings>
-		<setting name="logImpl" value="LOG4J"/>
+		<!-- 配置指定使用 log4j 输出日志 -->
+		<setting name="logImpl" value="LOG4J"/>	
+		<!-- 将数据库下划线方式命名的列映射到Java entity中以驼峰命名规则命名的列中 该属性默认为false-->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
 	<!-- 配置包别名，不需要频繁类的全限定名称 -->
 	<typeAliases>
