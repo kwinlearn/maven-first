@@ -8,6 +8,7 @@ public class Role {
 	private Integer enabled;	//有效标志
 	private Long createBy;		//创建人
 	private Date createTime;	//创建时间
+	private User user;
 	public Long getId() {
 		return id;
 	}
@@ -37,6 +38,12 @@ public class Role {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }
