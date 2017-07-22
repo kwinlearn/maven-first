@@ -25,4 +25,11 @@ public interface UserMapper {
 	 * @return
 	 */
 	List<Role> selectRolesByUserId(Long userId);
+	
+	/**
+	 * 新增用户
+	 * @param user
+	 * @return
+	 */
+	int insert(User user);
 }
