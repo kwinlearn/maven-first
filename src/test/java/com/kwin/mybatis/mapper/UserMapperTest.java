@@ -86,4 +86,95 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+
+	@Test
+	public void testInsert2() {
+		sqlSession = this.getSqlSession();
+		try {
+			userMapper = sqlSession.getMapper(UserMapper.class);
+			User user = new User();
+			user.setUserName("test1");
+			user.setUserPassword("123456");
+			user.setUserEmail("test@mybatis.com");
+			user.setUserInfo("test info");
+			user.setHeadImg(new byte[] { 1, 2, 3 });
+			user.setCreateTime(new Date());
+			int row = userMapper.insert2(user);
+			Assert.assertEquals(1, row);
+			Assert.assertNotNull(user.getId());
+		} finally {
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
+
+	@Test
+	public void testInser3() {
+		sqlSession = this.getSqlSession();
+		try {
+			userMapper = sqlSession.getMapper(UserMapper.class);
+			User user = new User();
+			user.setUserName("test1");
+			user.setUserPassword("123456");
+			user.setUserEmail("test@mybatis.com");
+			user.setUserInfo("test info");
+			user.setHeadImg(new byte[] { 1, 2, 3 });
+			user.setCreateTime(new Date());
+			int row = userMapper.insert3(user);
+			Assert.assertEquals(1, row);
+			Assert.assertNotNull(user.getId());
+		} finally {
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
+
+	@Test
+	public void testUpdateById() {
+		sqlSession = this.getSqlSession();
+		try {
+			userMapper = sqlSession.getMapper(UserMapper.class);
+			User user = userMapper.selectById(1l);
+			Assert.assertEquals("admin", user.getUserName());
+			user.setUserName("admin_test"); // 修改用户名
+			user.setUserEmail("test@mybatis.com"); // 修改用户邮箱
+			int row = userMapper.updateById(user);
+			Assert.assertEquals(1, row);
+			user = userMapper.selectById(1l);
+			Assert.assertEquals("admin_test", user.getUserName());
+		} finally {
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
+
+	@Test
+	public void testDeleteById() {
+		sqlSession = this.getSqlSession();
+		try {
+			userMapper = sqlSession.getMapper(UserMapper.class);
+			User user = userMapper.selectById(1l);
+			Assert.assertNotNull(user);
+			int row = userMapper.deleteById(user.getId());
+			Assert.assertEquals(1, row);
+			user = userMapper.selectById(1l);
+			Assert.assertNull(user);
+		} finally {
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
+
+	@Test
+	public void testSelectRolesByUserIdAndRoleEnabled() {
+		sqlSession = this.getSqlSession();
+		try {
+			userMapper = sqlSession.getMapper(UserMapper.class);
+			List<Role> roleList = userMapper.selectRolesByUserIdAndRoleEnabled(1l, 1);
+			Assert.assertNotNull(roleList);
+			Assert.assertTrue(roleList.size() > 0);
+		} finally {
+			sqlSession.close();
+		}
+	}
 }

@@ -2,6 +2,8 @@ package com.kwin.mybatis.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.kwin.mybatis.entity.Role;
 import com.kwin.mybatis.entity.User;
 
@@ -32,4 +34,42 @@ public interface UserMapper {
 	 * @return
 	 */
 	int insert(User user);
+	
+	/**
+	 * 新增用户 - 使用 useGeneratedKeys 方式
+	 * @param user
+	 * @return
+	 */
+	int insert2(User user);
+	
+	/**
+	 * 新增用户 selectKey
+	 * @param user
+	 * @return
+	 */
+	int insert3(User user);
+	
+	/**
+	 * 根据主键更新
+	 * @param user
+	 * @return
+	 */
+	int updateById(User user);
+	
+	/**
+	 * 根据主键删除
+	 * @param id
+	 * @return
+	 */
+	int deleteById(Long id);
+	
+	/**
+	 * 根据用户 id 和角色的 enabled 状态获取用户的角色
+	 * @param userId
+	 * @param enabled
+	 * @return
+	 */
+	List<Role> selectRolesByUserIdAndRoleEnabled(
+			@Param("userId")Long userId, 
+			@Param("enabled")Integer enabled);
 }
