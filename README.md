@@ -181,3 +181,20 @@ MODIFY COLUMN user_email VARCHAR(50) NULL DEFAULT 'test@mybatis.com'
 COMMENT '邮箱'
 AFTER user_password;
 ```
+
+### trim 使用方法
+```
+    where 和 set 标签都可以通过 trim 标签来实现，并且底层就是通过 TrimSqlNode 实现的
+    where 标签对应 trim 的实现如下
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+    ...
+    </trim>
+       这里的 AND 和 OR 后面的空格不能省略，为了避免匹配到 andes、 orders 等单词
+       实际的 profixeOverrides 包含 "AND"、"OR"、"AND\n"、"OR\n"、"AND\r"、"OR\r"、"AND\t"、"OR\t"
+       ，不仅仅是上面提到的两个带空格的前缀
+    trim 标签有如下属性
+    	prefix: 当 trim 元素内包含内容时，会给内容增加 prefix 指定的前缀
+    	prefixOverrides: 当 trim 元素内包含内容时，会把内容中匹配的前缀字符串去掉
+    	suffix: 当 trim 元素内包含内容时，会给内容增加 suffix 指定的前缀
+    	suffixOverrides: 当 trim 元素内包含内容时，会把内容中匹配的前缀字符串去掉
+```
