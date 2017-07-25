@@ -177,4 +177,69 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+
+	@Test
+	public void testSelectByUser() {
+		sqlSession = this.getSqlSession();
+		try {
+			userMapper = sqlSession.getMapper(UserMapper.class);
+			User conditions = new User();
+			conditions.setUserName("ad");
+			List<User> userList = userMapper.selectByUser(conditions);
+			Assert.assertTrue(userList.size() > 0);
+			conditions = new User();
+			conditions.setUserEmail("test@mybatis.com");
+			userList = userMapper.selectByUser(conditions);
+			Assert.assertTrue(userList.size() > 0);
+			conditions = new User();
+			conditions.setUserName("ad");
+			conditions.setUserEmail("test@mybatis.com");
+			userList = userMapper.selectByUser(conditions);
+			Assert.assertTrue(userList.size() == 0);
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testUpdateByIdSelective(){
+		sqlSession = this.getSqlSession();
+		try {
+			userMapper = sqlSession.getMapper(UserMapper.class);
+			User user = new User();
+			user.setId(1l);
+			user.setUserEmail("test@mybatis.com");
+			int row = userMapper.updateByIdSelective(user);
+			Assert.assertEquals(1, row);
+			user = userMapper.selectById(1l);
+			Assert.assertEquals("admin", user.getUserName());
+			Assert.assertEquals("test@mybatis.com", user.getUserEmail());
+		} finally {
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testSelectByIdOrUserName(){
+		sqlSession = this.getSqlSession();
+		try {
+			userMapper = sqlSession.getMapper(UserMapper.class);
+			User userQuery = new User();
+			userQuery.setId(1l);
+			userQuery.setUserName("admin");
+			User user = userMapper.selectByIdOrUserName(userQuery);
+			Assert.assertNotNull(user);
+			// 当没有 id 时
+			userQuery.setId(null);
+			user = userMapper.selectByIdOrUserName(userQuery);
+			Assert.assertNotNull(user);
+			// 当 userName 和 id 都为null 时
+			userQuery.setUserName(null);
+			user = userMapper.selectByIdOrUserName(userQuery);
+			Assert.assertNull(user);
+		} finally {
+			sqlSession.close();
+		}
+	}
 }

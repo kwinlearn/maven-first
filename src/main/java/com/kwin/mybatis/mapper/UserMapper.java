@@ -72,4 +72,24 @@ public interface UserMapper {
 	List<Role> selectRolesByUserIdAndRoleEnabled(
 			@Param("userId")Long userId, 
 			@Param("enabled")Integer enabled);
+	
+	/**
+	 * 根据动态条件查询用户信息
+	 * @return
+	 */
+	List<User> selectByUser(User user);
+	
+	/**
+	 * 根据主键更新
+	 * @param user
+	 * @return
+	 */
+	int updateByIdSelective(User user);
+	
+	/**
+	 * 根据永辉 id 或用户名查询
+	 * @param user
+	 * @return
+	 */
+	User selectByIdOrUserName(User user);
 }

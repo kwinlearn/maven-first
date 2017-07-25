@@ -122,4 +122,62 @@
 		inner join sys_role r on ur.role_id = r.id
 		where u.id = #{userId} and r.enabled = #{enabled}
 	</select>
+	
+	<select id="selectByUser" resultType="User">
+		select
+			<include refid="BaseColumns"/>
+		from sys_user
+		<where>
+			<if test="userName != null and userName != ''">
+				and user_name like concat('%', #{userName}, '%')
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				and user_email = #{userEmail}
+			</if>
+		</where>
+	</select>
+	
+	<update id="updateByIdSelective" parameterType="User">
+		update sys_user
+		<set>
+		<if test="userName != null and userName != ''">
+			user_name = #{userName},
+		</if>
+		<if test="userPassword != null and userPassword != ''">
+			user_password = #{userPassword},
+		</if>
+		<if test="userEmail != null and userEmail != ''">
+			user_email = #{userEmail},
+		</if>
+		<if test="userInfo != null and userInfo != ''">
+			user_info = #{userInfo},
+		</if>
+		<if test="headImg != null">
+			head_img = #{headImg, jdbcType=BLOB},
+		</if>
+		<if test="createTime != null">
+			create_time = #{createTime, jdbcType=TIMESTAMP},
+		</if>
+			id = #{id}
+		</set>
+		where id = #{id}
+	</update>
+	
+	<select id="selectByIdOrUserName" parameterType="User" resultType="User">
+		select
+			<include refid="BaseColumns"/>
+		from sys_user
+		where 1 = 1
+		<choose>
+			<when test="id != null">
+				and id = #{id}
+			</when>
+			<when test="userName != null and userName != ''">
+				and user_name = #{userName}
+			</when>
+			<otherwise>
+				and 1 = 2
+			</otherwise>
+		</choose>
+	</select>
 </mapper>
