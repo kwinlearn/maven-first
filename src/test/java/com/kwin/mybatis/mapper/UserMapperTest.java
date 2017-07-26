@@ -1,5 +1,6 @@
 package com.kwin.mybatis.mapper;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -238,6 +239,21 @@ public class UserMapperTest extends BaseMapperTest {
 			userQuery.setUserName(null);
 			user = userMapper.selectByIdOrUserName(userQuery);
 			Assert.assertNull(user);
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testSelectByIdList(){
+		sqlSession = this.getSqlSession();
+		try {
+			userMapper = sqlSession.getMapper(UserMapper.class);
+			List<Long> idList = new ArrayList<Long>();
+			idList.add(1l);
+			idList.add(1001l);
+			List<User> userList = userMapper.selectByIdList(idList);
+			Assert.assertEquals(2, userList.size());
 		} finally {
 			sqlSession.close();
 		}

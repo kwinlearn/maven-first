@@ -180,4 +180,23 @@
 			</otherwise>
 		</choose>
 	</select>
+	
+	<select id="selectByIdList" parameterType="java.util.List" resultType="User">
+		select
+			<include refid="BaseColumns"/>
+		from sys_user
+		where id in
+		<foreach collection="idList" open="(" close=")" index="i" item="id" separator=",">
+			#{id}
+		</foreach>
+	</select>
+	
+	<select id="insertList" parameterType="java.util.List" resultType="java.lang.Integer">
+		insert into sys_user(
+			user_name, user_password, user_email, user_info, head_img, create_time)
+		values
+		<foreach collection="userList" item="user" separator=",">
+			(#{user.userName}, #{user.userPassword}, #{user.userEmail}, #{user.userInfo}, #{user.headImg, jdbcType=BLOB}, #{user.createTime, jdbcType=TIMESTAMP}) 
+		</foreach>
+	</select>
 </mapper>
